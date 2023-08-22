@@ -1,42 +1,80 @@
 // import "./Body.css"
-import { useState } from "react";
-function Body() {
-    const [state, setState] = useState({
-        name: "",
-        gender: "",
-        birth:"",
-        bio: ""
-    });
-    const handleOnChange = (e) =>{
-        console.log("현재 수정 대상 : ", e.target.name);
-        console.log("수정값 : ", e.target.value);
-        setState({
-            ...state,
-            [e.target.name] : e.target.value,
-        });
-    };
-    
+// import { useState } from "react";
+// import { useRef, useState } from "react";
 
-    return (
-        <div>
-            <div>
-                <input value={state.name} onChange={handleOnChange} placeholder="이름" name="name" />
-            </div>
-            <div>
-                <select value={state.gender} onChange={handleOnChange} name="gender">
-                    <option key={""}></option>
-                    <option key={"남성"}>남성</option>
-                    <option key={"여성"}>여성</option>
-                </select>
-            </div>
-            <div>
-                <input type="date" value={state.birth} onChange={handleOnChange} name="birth" />
-            </div>
-            <div>
-                <input value={state.bio} onChange={handleOnChange} name="bio" />
-            </div>
-        </div>
-        )
+// function Body() {
+//     const [text, setText] = useState("");
+//     const handleOnChange = (e) =>{
+//         setText(e.target.value);
+//     }
+//     const handleOnClick = () =>{
+//         alert(text);
+//     }
+
+//     return(
+//         <div>
+//             <input value={text} onChange={handleOnChange} />
+//             {text}
+//             <button onClick={handleOnClick}>작성 완료</button>
+//         </div>
+//     )
+
+// }
+// export default Body;
+
+// import { useRef, useState } from "react";
+
+// function Body() {
+//     const [text, setText] = useState("");
+//     const textRef = useRef();
+
+//     const handleOnChange = (e) =>{
+//         setText(e.target.value);
+//         console.log({text})
+//     }
+//     const handleOnClick = () =>{
+//         alert(text);
+//         textRef.current.value = "";
+//     }
+
+//     return(
+//         <div>
+//             <input ref={textRef} value={text} onChange={handleOnChange} />
+//             <button onClick={handleOnClick}>작성 완료</button>
+//         </div>
+//     )
+
+// }
+
+
+
+
+import { useRef, useState } from "react";
+
+function Body() {
+    const [text, setText] = useState("");
+    const textRef = useRef();
+
+    const handleOnChange = (e) =>{
+        setText(e.target.value);
+        console.log({text})
     }
+    const handleOnClick = () =>{
+        if(text.length < 5){
+            textRef.current.focus();
+        }else{
+            alert(text);
+            setText("");
+        }
+    };
+
+    return(
+        <div>
+            <input ref={textRef} value={text} onChange={handleOnChange} />
+            <button onClick={handleOnClick}>작성 완료</button>
+        </div>
+    )
+
+}
 
 export default Body;
