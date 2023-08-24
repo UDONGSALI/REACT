@@ -2,7 +2,9 @@ import './App.css';
 import Header from './component/Header';
 import TodoEditor from "./component/TodoEditor";
 import TodoList from './component/TodoLIst';
-import { useReducer, useRef } from 'react';
+import { useReducer, useRef, useCallback } from 'react';
+
+
 
 function App() {
 
@@ -49,7 +51,7 @@ function App() {
     }
   ];
 
-  const onCreate = (content) =>{
+  const onCreate = useCallback((content) =>{
     dispatch({
       type: "CREATE",
       newItem: {
@@ -60,23 +62,23 @@ function App() {
       },
     });
       idRef.current += 1;
-  };
+  }, []);
 
-  const onUpdate = (targetId) =>{
+  const onUpdate = useCallback((targetId) =>{
     dispatch({
       type: "UPDATE",
       targetId,
     });
-  }
+  },[])
 
   
 
-  const onDelete = (targetId) => {
+  const onDelete = useCallback((targetId) => {
     dispatch({
       type: "DELETE",
       targetId,
     });
-  };
+  }, [])
 
   
   const [todo, dispatch] = useReducer(reducer, mockTodo);

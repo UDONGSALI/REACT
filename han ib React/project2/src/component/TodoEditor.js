@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import "./TodoEditor.css";
+import React from 'react';
+
 
 const TodoEditor = ({onCreate}) => {
     const [content, setContent] = useState("");
@@ -36,4 +38,4 @@ const TodoEditor = ({onCreate}) => {
     )
 }
 
-export default TodoEditor;
+export default React.memo(TodoEditor);
