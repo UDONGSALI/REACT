@@ -81,15 +81,14 @@ const Editor = ({initData, onSubmit}) =>{
                     onChange={handleChangeContent}
                     />
                 </div>
-                {state.content}
             </div>
             <div className="editor_section">
                 {/* 작성완료, 취소 */}
+                <div className="editor_section button_section">
+                    <Button text={"취소하기"} onClick={handleOnGoBack}></Button>
+                     <Button text={"작성완료"} type={"positive"} onClick={handleSubmit}></Button>
+                 </div>
             </div>
-        <div className="edtor_section botton_section">
-            <Button text={"취소하기"} onClick={handleOnGoBack}></Button>
-            <Button text={"작성완료"} type={"positive"} onClick={handleSubmit}></Button>
-        </div>
         </div>
     );
 };

@@ -33,7 +33,7 @@
     resize: vertical;
 }
 
-.Editor .bottom_section{
+.Editor .button_section{
     display: flex;
     justify-content: space-between;
     align-items: center;

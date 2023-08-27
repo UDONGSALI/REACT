@@ -8,6 +8,39 @@ import Edit from "./pages/Edit";
 import Button from "./component/Button";
 import React, { useReducer, useRef, useEffect, useState } from "react";
 
+const mockData = [
+  {
+    id: "mock1",
+    date: new Date().getTime()-1,
+    content: "mock1",
+    emotionId: 1,
+  },
+  {
+    id: "mock2",
+    date: new Date().getTime()-2,
+    content: "mock2",
+    emotionId: 2,
+  },
+  {
+    id: "mock3",
+    date: new Date().getTime()-3,
+    content: "mock3",
+    emotionId: 3,
+  },
+  {
+    id: "mock4",
+    date: new Date().getTime()-4,
+    content: "mock4",
+    emotionId: 4,
+  },
+  {
+    id: "mock5",
+    date: new Date().getTime()-5,
+    content: "mock5",
+    emotionId: 5,
+  },
+];
+
 
 
 function reducer(state, action) {
@@ -74,39 +107,7 @@ function App() {
       },
     });
   };
-
-  const mockData = [
-    {
-      id: "mock1",
-      date: new Date().getTime(),
-      content: "mock1",
-      emotionId: 1,
-    },
-    {
-      id: "mock2",
-      date: new Date().getTime(),
-      content: "mock2",
-      emotionId: 2,
-    },
-    {
-      id: "mock3",
-      date: new Date().getTime(),
-      content: "mock3",
-      emotionId: 3,
-    },
-    {
-      id: "mock4",
-      date: new Date().getTime(),
-      content: "mock4",
-      emotionId: 4,
-    },
-    {
-      id: "mock5",
-      date: new Date().getTime(),
-      content: "mock5",
-      emotionId: 5,
-    },
-  ];
+  
   if (!isDataLoaded) {
     return <div>데이터를 불러오는 중입니다.</div>;
   } else {
