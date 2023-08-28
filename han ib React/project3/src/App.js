@@ -1,49 +1,15 @@
-import "./App.css";
-import { getEmotionImgId } from "./util";
-import { Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import New from "./pages/New";
-import Diary from "./pages/Diary";
-import Edit from "./pages/Edit";
-import Button from "./component/Button";
-import React, { useReducer, useRef, useEffect, useState } from "react";
+import './App.css';
+import { Routes, Route} from 'react-router-dom';
+import Home from './pages/Home';
+import New from './pages/New';
+import Diary from './pages/Diary';
+import Edit from './pages/Edit';
+import React, { useReducer, useRef, useEffect, useState } from 'react';
 
-const mockData = [
-  {
-    id: "mock1",
-    date: new Date().getTime()-1,
-    content: "mock1",
-    emotionId: 1,
-  },
-  {
-    id: "mock2",
-    date: new Date().getTime()-2,
-    content: "mock2",
-    emotionId: 2,
-  },
-  {
-    id: "mock3",
-    date: new Date().getTime()-3,
-    content: "mock3",
-    emotionId: 3,
-  },
-  {
-    id: "mock4",
-    date: new Date().getTime()-4,
-    content: "mock4",
-    emotionId: 4,
-  },
-  {
-    id: "mock5",
-    date: new Date().getTime()-5,
-    content: "mock5",
-    emotionId: 5,
-  },
-];
+export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 
-
-
-function reducer(state, action) {
+function reducer(state,action) {
   switch (action.type) {
     case "INIT": {
       return action.data;
@@ -52,8 +18,8 @@ function reducer(state, action) {
       return [action.data, ...state];
     }
     case "UPDATE": {
-      return state.map((it) =>
-        String(it.id) === String(action.data.id) ? { ...action.data } : it
+      return state.map((it) => 
+      String(it.id) === String(action.data.id) ? {...action.data} : it
       );
     }
     case "DELETE": {
@@ -65,18 +31,32 @@ function reducer(state, action) {
   }
 }
 
+const mockData = [
+  {
+    id: "mock1",
+    date: new Date().getTime() - 1,
+    content:"mock1",
+    emotionId: 1,
+  },
+  {
+    id: "mock2",
+    date: new Date().getTime() - 2,
+    content:"mock2",
+    emotionId: 2,
+  },
+  {
+    id: "mock3",
+    date: new Date().getTime() - 3,
+    content:"mock3",
+    emotionId: 3,
+  },
+];
+
 function App() {
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isDataLoaded, setIsDaLoaded] = useState(false);
   const [data, dispatch] = useReducer(reducer, []);
   const idRef = useRef(0);
 
-  useEffect(() => {
-    dispatch({
-      type: "INIT",
-      data: mockData,
-    });
-    setIsDataLoaded(true);
-  }, []);
   const onCreate = (date, content, emotionId) => {
     dispatch({
       type: "CREATE",
@@ -87,11 +67,19 @@ function App() {
         emotionId,
       },
     });
+    idRef.current += 1;
   };
+  const onDelete = (targetId) => {
+    dispatch ({
+      type: "DELETE",
+      targetId,
+    });
+  };
+   //일기 수정 
   const onUpdate = (targetId, date, content, emotionId) => {
     dispatch({
       type: "UPDATE",
-      data: {
+      data:{
         id: targetId,
         date: new Date(date).getTime(),
         content,
@@ -99,42 +87,41 @@ function App() {
       },
     });
   };
-  const onDelete = (targetId) => {
+
+  useEffect(() => {
     dispatch({
-      type: "DELETE",
-      data: {
-        id: targetId,
-      },
+      type: "INIT",
+      data: mockData,
     });
-  };
-  
+    setIsDaLoaded(true);
+  }, []);
+
+
   if (!isDataLoaded) {
-    return <div>데이터를 불러오는 중입니다.</div>;
+    return <div>데이터를 불러오는 중입니다</div>;
+
   } else {
-    return (
-      <DiaryStateContext.Provider value={data}>
-        <DiaryDispatchContext.Provider
-          value={{
-            onCreate,
-            onUpdate,
-            onDelete,
-          }}
-        >
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/new" element={<New />} />
-              <Route path="/diary/:id" element={<Diary />} />
-              <Route path="/edit/:id" element={<Edit />} />
-            </Routes>
-            <div></div>
-          </div>
-        </DiaryDispatchContext.Provider>
-      </DiaryStateContext.Provider>
-    );
+  return (
+    <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider
+      value={{
+        onCreate,
+        onUpdate,
+        onDelete,
+      }}
+      >
+    <div className="App">
+      <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/new' element={<New />} />
+      <Route path='/diary/:id' element={<Diary />} />
+      <Route path='/edit/:id' element={<Edit />} />
+      </Routes>
+    </div>
+    </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
+  );
   }
 }
 
-export const DiaryStateContext = React.createContext();
-export const DiaryDispatchContext = React.createContext();
 export default App;
